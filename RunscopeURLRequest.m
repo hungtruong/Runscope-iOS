@@ -29,7 +29,6 @@
 @implementation RunscopeURLRequest
 
 -(id)initWithURL:(NSURL *)URL bucket:(NSString *)bucketID {
-  
   NSURL *newURL = [RunscopeURLRequest runscopeURLFromURL:URL bucket:bucketID];
   self = [super initWithURL:newURL];
   [self setRequestPortForURL:URL];
@@ -41,10 +40,6 @@
   self = [super initWithURL:newURL cachePolicy:cachePolicy timeoutInterval:timeoutInterval];
   [self setRequestPortForURL:URL];
   return self;
-}
-
--(void)setBucketID:(NSString *)bucketID {
-  
 }
 
 -(void)setURL:(NSURL *)URL bucket:(NSString *)bucketID{
@@ -73,7 +68,6 @@
   if ([URL query]) {
     [newPath appendFormat:@"?%@", [URL query]];
   }
-  
   NSString *newURLString = [NSString stringWithFormat:@"%@://%@%@", [URL scheme], newHost, newPath];
   return [NSURL URLWithString:newURLString];
 }
