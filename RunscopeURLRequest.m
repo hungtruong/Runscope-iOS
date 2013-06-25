@@ -55,7 +55,9 @@
 }
 
 +(NSURL *)runscopeURLFromURL:(NSURL *)URL bucket:(NSString *)bucketID{
-  NSString *newHost = [NSString stringWithFormat:@"%@-%@.runscope.net", [[URL host] stringByReplacingOccurrencesOfString:@"." withString:@"-"], bucketID];
+  NSString *newHost;
+  newHost = [[URL host]  stringByReplacingOccurrencesOfString:@"-" withString:@"--"]; //hyphens need to be doubled
+  newHost = [NSString stringWithFormat:@"%@-%@.runscope.net", [newHost stringByReplacingOccurrencesOfString:@"." withString:@"-"], bucketID];
   NSMutableString *newPath = [[NSMutableString alloc] initWithString:@""];
   [URL.pathComponents enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
     if (idx != 0) {
