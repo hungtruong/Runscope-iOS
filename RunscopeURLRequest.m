@@ -29,22 +29,43 @@
 @implementation RunscopeURLRequest
 
 -(id)initWithURL:(NSURL *)URL bucket:(NSString *)bucketID {
+  return [self initWithURL:URL bucket:bucketID auth_token:nil];
+}
+
+-(id)initWithURL:(NSURL *)URL bucket:(NSString *)bucketID auth_token:(NSString *)auth_token {
   NSURL *newURL = [RunscopeURLRequest runscopeURLFromURL:URL bucket:bucketID];
   self = [super initWithURL:newURL];
   [self setRequestPortForURL:URL];
+  if (auth_token){
+    [self setRequestAuthToken:auth_token];
+  }
   return self;
 }
 
 -(id)initWithURL:(NSURL *)URL cachePolicy:(NSURLRequestCachePolicy)cachePolicy timeoutInterval:(NSTimeInterval)timeoutInterval bucket:(NSString *)bucketID {
+  return [self initWithURL:URL cachePolicy:cachePolicy timeoutInterval:timeoutInterval bucket:bucketID auth_token:nil];
+}
+
+-(id)initWithURL:(NSURL *)URL cachePolicy:(NSURLRequestCachePolicy)cachePolicy timeoutInterval:(NSTimeInterval)timeoutInterval bucket:(NSString *)bucketID auth_token:(NSString *)auth_token {
   NSURL *newURL = [RunscopeURLRequest runscopeURLFromURL:URL bucket:bucketID];
   self = [super initWithURL:newURL cachePolicy:cachePolicy timeoutInterval:timeoutInterval];
   [self setRequestPortForURL:URL];
+  if (auth_token) {
+    [self setRequestAuthToken:auth_token];
+  }
   return self;
 }
 
--(void)setURL:(NSURL *)URL bucket:(NSString *)bucketID{
+-(void)setURL:(NSURL *)URL bucket:(NSString *)bucketID {
+  [self setURL:URL bucket:bucketID auth_token:nil];
+}
+
+-(void)setURL:(NSURL *)URL bucket:(NSString *)bucketID auth_token:(NSString *)auth_token {
   NSURL *newURL = [RunscopeURLRequest runscopeURLFromURL:URL bucket:bucketID];
   [self setRequestPortForURL:URL];
+  if (auth_token) {
+    [self setRequestAuthToken:auth_token];
+  }
   [super setURL:newURL];
 }
 
@@ -54,7 +75,11 @@
   }
 }
 
-+(NSURL *)runscopeURLFromURL:(NSURL *)URL bucket:(NSString *)bucketID{
+-(void)setRequestAuthToken:(NSString *)auth_token {
+  [self setValue:auth_token forHTTPHeaderField:@"Runscope-Bucket-Auth"];
+}
+
++(NSURL *)runscopeURLFromURL:(NSURL *)URL bucket:(NSString *)bucketID {
   NSString *newHost;
   newHost = [[URL host]  stringByReplacingOccurrencesOfString:@"-" withString:@"--"]; //hyphens need to be doubled
   newHost = [NSString stringWithFormat:@"%@-%@.runscope.net", [newHost stringByReplacingOccurrencesOfString:@"." withString:@"-"], bucketID];
@@ -75,14 +100,28 @@
 }
 
 +(id)requestWithURL:(NSURL *)URL cachePolicy:(NSURLRequestCachePolicy)cachePolicy timeoutInterval:(NSTimeInterval)timeoutInterval bucket:(NSString *)bucketID {
+  return [RunscopeURLRequest requestWithURL:URL cachePolicy:cachePolicy timeoutInterval:timeoutInterval bucket:bucketID auth_token:nil];
+}
+
++(id)requestWithURL:(NSURL *)URL cachePolicy:(NSURLRequestCachePolicy)cachePolicy timeoutInterval:(NSTimeInterval)timeoutInterval bucket:(NSString *)bucketID auth_token:(NSString *)auth_token {
   RunscopeURLRequest *request = [super requestWithURL:[self runscopeURLFromURL:URL bucket:bucketID] cachePolicy:cachePolicy timeoutInterval:timeoutInterval];
   [request setRequestPortForURL:URL];
+  if (auth_token) {
+    [request setRequestAuthToken:auth_token];
+  }
   return request;
 }
 
 +(id)requestWithURL:(NSURL *)URL bucket:(NSString *)bucketID {
+  return [RunscopeURLRequest requestWithURL:URL bucket:bucketID auth_token:nil];
+}
+
++(id)requestWithURL:(NSURL *)URL bucket:(NSString *)bucketID auth_token:(NSString *)auth_token {
   RunscopeURLRequest *request = [super requestWithURL:[self runscopeURLFromURL:URL bucket:bucketID]];
   [request setRequestPortForURL:URL];
+  if (auth_token) {
+    [request setRequestAuthToken:auth_token];
+  }
   return request;
 }
 

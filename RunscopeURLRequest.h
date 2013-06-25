@@ -30,12 +30,19 @@
 
 @property (nonatomic, strong) NSString *bucketID;
 +(id)requestWithURL:(NSURL *)URL bucket:(NSString *)bucketID;
++(id)requestWithURL:(NSURL *)URL bucket:(NSString *)bucketID auth_token:(NSString *)auth_token;
 +(id)requestWithURL:(NSURL *)URL cachePolicy:(NSURLRequestCachePolicy)cachePolicy timeoutInterval:(NSTimeInterval)timeoutInterval bucket:(NSString *)bucketID;
++(id)requestWithURL:(NSURL *)URL cachePolicy:(NSURLRequestCachePolicy)cachePolicy timeoutInterval:(NSTimeInterval)timeoutInterval bucket:(NSString *)bucketID auth_token:(NSString *)auth_token;
+
 +(NSURL *)runscopeURLFromURL:(NSURL *)URL bucket:(NSString *)bucketID;
 
 -(id)initWithURL:(NSURL *)URL bucket:(NSString *)bucketID;
+-(id)initWithURL:(NSURL *)URL bucket:(NSString *)bucketID auth_token:(NSString *)auth_token;
+
 -(id)initWithURL:(NSURL *)URL cachePolicy:(NSURLRequestCachePolicy)cachePolicy timeoutInterval:(NSTimeInterval)timeoutInterval bucket:(NSString *)bucketID;
+-(id)initWithURL:(NSURL *)URL cachePolicy:(NSURLRequestCachePolicy)cachePolicy timeoutInterval:(NSTimeInterval)timeoutInterval bucket:(NSString *)bucketID auth_token:(NSString *)auth_token;
+
 -(void)setURL:(NSURL *)URL bucket:(NSString *)bucketID;
 -(void)setRequestPortForURL:(NSURL *)URL;
-
+-(void)setRequestAuthToken:(NSString *)auth_token;
 @end
